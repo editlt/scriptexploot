@@ -5,7 +5,7 @@ local version = "v0.0.1"
 
 local Window = Library:CreateWindow{
     Title = `Climbing Simulator`,
-    SubTitle = `${version} by Edit`,
+    SubTitle = `{version} by Edit`,
     TabWidth = 160,
     Size = UDim2.fromOffset(600, 470),
     Resize = true,
