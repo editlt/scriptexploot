@@ -1,7 +1,7 @@
 local Library = loadstring(game:HttpGetAsync("https://github.com/ActualMasterOogway/Fluent-Renewed/releases/latest/download/Fluent.luau"))()
 local SaveManager = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/ActualMasterOogway/Fluent-Renewed/master/Addons/SaveManager.luau"))()
 local InterfaceManager = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/ActualMasterOogway/Fluent-Renewed/master/Addons/InterfaceManager.luau"))()
-local version = "v0.0.4"
+local version = "v0.0.5"
 
 local Window = Library:CreateWindow{
     Title = `Climbing Simulator`,
@@ -19,6 +19,10 @@ local Tabs = {
     Main = Window:CreateTab{
         Title = "Main",
         Icon = "phosphor-users-bold"
+    },
+    Rebirth = Window:CreateTab{
+        Title = "Rebirth",
+        Icon = "phosphor-rewind-circle"
     },
     Settings = Window:CreateTab {
         Title = "Settings",
@@ -104,7 +108,7 @@ end)
 
 Options.AutoWins:SetValue(false)
 
-local autoRebirthToggle = Tabs.Main:CreateToggle("AutoRebirth", {Title = "Auto Rebirth", Default = false })
+local autoRebirthToggle = Tabs.Rebirth:CreateToggle("AutoRebirth", {Title = "Auto Rebirth", Default = false })
 
 autoRebirthToggle:OnChanged(function()
     local value = Options.AutoRebirth.Value
@@ -179,6 +183,54 @@ Tabs.Main:CreateButton{
         game:GetService("ReplicatedStorage"):WaitForChild("ReliableRedEvent"):FireServer(unpack(args))
     end
 }
+
+Tabs.Rebirth:CreateButton{
+    Title = "Super Rebirth",
+    Description = "Super Rebirths",
+    Callback = function()
+        local args = {
+            [1] = {
+                ["\22"] = {
+                    [1] = {
+                        ["n"] = 0
+                    }
+                }
+            },
+        [2] = {}
+        }
+
+        game:GetService("ReplicatedStorage"):WaitForChild("ReliableRedEvent"):FireServer(unpack(args))
+    end
+}
+
+local autoSuperRebirthToggle = Tabs.Rebirth:CreateToggle("AutoSuperRebirth", {Title = "Auto SUPER Rebirth", Default = false })
+
+autoSuperRebirthToggle:OnChanged(function()
+    local value = Options.AutoSuperRebirth.Value
+    local running = false
+
+    if value == true and not running then
+        running = true
+
+        spawn(function()
+            while Options.AutoSuperRebirth.Value do
+            local args = {
+                [1] = {
+                    ["\22"] = {
+                        [1] = {
+                            ["n"] = 0
+                        }
+                    }
+                },
+                [2] = {}
+            }
+            game:GetService("ReplicatedStorage"):WaitForChild("ReliableRedEvent"):FireServer(unpack(args))
+            task.wait(0.2)
+            end
+            running = false
+        end)
+    end
+end)
 
 SaveManager:SetLibrary(Library)
 InterfaceManager:SetLibrary(Library)
