@@ -1,7 +1,7 @@
 local Library = loadstring(game:HttpGetAsync("https://github.com/ActualMasterOogway/Fluent-Renewed/releases/latest/download/Fluent.luau"))()
 local SaveManager = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/ActualMasterOogway/Fluent-Renewed/master/Addons/SaveManager.luau"))()
 local InterfaceManager = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/ActualMasterOogway/Fluent-Renewed/master/Addons/InterfaceManager.luau"))()
-local version = "v0.0.3"
+local version = "v0.0.4"
 
 local Window = Library:CreateWindow{
     Title = `Climbing Simulator`,
@@ -159,6 +159,26 @@ tpToArea:OnChanged(function(Value)
     }
     game:GetService("ReplicatedStorage"):WaitForChild("ReliableRedEvent"):FireServer(unpack(args))
 end)
+
+Tabs.Main:CreateButton{
+    Title = "Equip Best Dumbbell",
+    Description = "Equips the x75k dumbbell",
+    Callback = function()
+        local args = {
+            [1] = {
+                ["\""] = {
+                    [1] = {
+                        [1] = "72000",
+                        ["n"] = 1
+                    }
+                }
+            },
+        [2] = {}
+        }
+
+        game:GetService("ReplicatedStorage"):WaitForChild("ReliableRedEvent"):FireServer(unpack(args))
+    end
+}
 
 SaveManager:SetLibrary(Library)
 InterfaceManager:SetLibrary(Library)
