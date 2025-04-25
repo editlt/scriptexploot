@@ -1,7 +1,7 @@
 local Library = loadstring(game:HttpGetAsync("https://github.com/ActualMasterOogway/Fluent-Renewed/releases/latest/download/Fluent.luau"))()
 local SaveManager = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/ActualMasterOogway/Fluent-Renewed/master/Addons/SaveManager.luau"))()
 local InterfaceManager = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/ActualMasterOogway/Fluent-Renewed/master/Addons/InterfaceManager.luau"))()
-local version = "v0.0.1"
+local version = "v0.0.2"
 
 local Window = Library:CreateWindow{
     Title = `Climbing Simulator`,
@@ -89,6 +89,37 @@ autoWinsToggle:OnChanged(function()
                         [1] = {
                             [1] = true,
                             ["n"] = 1
+                        }
+                    }
+                },
+                [2] = {}
+            }
+            game:GetService("ReplicatedStorage"):WaitForChild("ReliableRedEvent"):FireServer(unpack(args))
+            task.wait(0.2)
+            end
+            running = false
+        end)
+    end
+end)
+
+Options.AutoWins:SetValue(false)
+
+local autoRebirthToggle = Tabs.Main:CreateToggle("AutoRebirth", {Title = "Auto Rebirth", Default = false })
+
+autoRebirthToggle:OnChanged(function()
+    local value = Options.AutoRebirth.Value
+    local running = false
+
+    if value == true and not running then
+        running = true
+
+        spawn(function()
+            while Options.AutoRebirth.Value do
+            local args = {
+                [1] = {
+                    ["\21"] = {
+                        [1] = {
+                            ["n"] = 0
                         }
                     }
                 },
