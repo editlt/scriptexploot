@@ -1,7 +1,7 @@
 local Library = loadstring(game:HttpGetAsync("https://github.com/ActualMasterOogway/Fluent-Renewed/releases/latest/download/Fluent.luau"))()
 local SaveManager = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/ActualMasterOogway/Fluent-Renewed/master/Addons/SaveManager.luau"))()
 local InterfaceManager = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/ActualMasterOogway/Fluent-Renewed/master/Addons/InterfaceManager.luau"))()
-local version = "v0.0.2"
+local version = "v0.0.3"
 
 local Window = Library:CreateWindow{
     Title = `Climbing Simulator`,
@@ -134,6 +134,31 @@ autoRebirthToggle:OnChanged(function()
 end)
 
 Options.AutoWins:SetValue(false)
+
+local tpToArea = Tabs.Main:CreateDropdown("Area", {
+    Title = "Teleport to Area",
+    Description = "Teleport to specified area. REQUIRES THE AMOUNT OF WINS.",
+    Values = {"Tree", "Cell Tower", "Apartment", "Pyramid", "Eiffel Tower", "Skyscraper", "Volcano", "Waterfall", "Grand Canyon"},
+    Multi = false,
+    Default = 1,
+})
+
+tpToArea:SetValue("Tree")
+
+tpToArea:OnChanged(function(Value)
+    local args = {
+        [1] = {
+            ["\8"] = {
+                [1] = {
+                    [1] = `{Value}`,
+                    ["n"] = 1
+                }
+            }
+        },
+    [2] = {}
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("ReliableRedEvent"):FireServer(unpack(args))
+end)
 
 SaveManager:SetLibrary(Library)
 InterfaceManager:SetLibrary(Library)
