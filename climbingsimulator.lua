@@ -1,7 +1,7 @@
 local Library = loadstring(game:HttpGetAsync("https://github.com/ActualMasterOogway/Fluent-Renewed/releases/latest/download/Fluent.luau"))()
 local SaveManager = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/ActualMasterOogway/Fluent-Renewed/master/Addons/SaveManager.luau"))()
 local InterfaceManager = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/ActualMasterOogway/Fluent-Renewed/master/Addons/InterfaceManager.luau"))()
-local version = "v0.0.5"
+local version = "v0.0.6"
 
 local Window = Library:CreateWindow{
     Title = `Climbing Simulator`,
@@ -164,25 +164,25 @@ tpToArea:OnChanged(function(Value)
     game:GetService("ReplicatedStorage"):WaitForChild("ReliableRedEvent"):FireServer(unpack(args))
 end)
 
-Tabs.Main:CreateButton{
-    Title = "Equip Best Dumbbell",
-    Description = "Equips the x75k dumbbell",
-    Callback = function()
-        local args = {
-            [1] = {
-                ["\""] = {
-                    [1] = {
-                        [1] = "72000",
-                        ["n"] = 1
-                    }
-                }
-            },
-        [2] = {}
-        }
+local AutoBestDumbellToggle = Tabs.Main:CreateToggle("AutoBestDumbell", {Title = "Auto Equip Best Dumbell", Default = false })
 
-        game:GetService("ReplicatedStorage"):WaitForChild("ReliableRedEvent"):FireServer(unpack(args))
+AutoBestDumbellToggle:OnChanged(function()
+    local value = Options.AutoBestDumbell.Value
+    local running = false
+
+    if value == true and not running then
+        running = true
+
+        spawn(function()
+            while Options.AutoBestDumbell.Value do
+                local args = {[1] = {["\""] = {[1] = {[1] = "72000",["n"] = 1}}},[2] = {}}
+                game:GetService("ReplicatedStorage"):WaitForChild("ReliableRedEvent"):FireServer(unpack(args))
+            task.wait(0.2)
+            end
+            running = false
+        end)
     end
-}
+end)
 
 Tabs.Rebirth:CreateButton{
     Title = "Super Rebirth",
